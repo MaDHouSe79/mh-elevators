@@ -7,6 +7,8 @@
 - [qb-core](https://github.com/qbcore-framework/qb-core)
 - [qb-target](https://github.com/qbcore-framework/qb-target)
 
+## Video
+- [youtube](https://www.youtube.com/watch?v=MBs9n2RBM-I)
 
 ## How to install:
 - Copy the directory `qb-elevators` to `resources/[qb]/`
