@@ -119,15 +119,15 @@ end)
 
 CreateThread(function()
     if Config.ShowBlips then
-        for key, lift in pairs(Config.Elevators) do
-            if lift.blip.show then
-                local blip = AddBlipForCoord(lift.blip.coords.x, lift.blip.coords.y, lift.blip.coords.z)
-                SetBlipSprite(blip, lift.blip.sprite)
+        for key, elevator in pairs(Config.Elevators) do
+            if elevator.blip.show then
+                local blip = AddBlipForCoord(elevator.blip.coords.x, elevator.blip.coords.y, elevator.blip.coords.z)
+                SetBlipSprite(blip, elevator.blip.sprite)
                 SetBlipAsShortRange(blip, true)
-                SetBlipScale(blip, lift.blip.scale)
-                SetBlipColour(blip, lift.blip.colour)
+                SetBlipScale(blip, elevator.blip.scale)
+                SetBlipColour(blip, elevator.blip.colour)
                 BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString(lift.blip.label)
+                AddTextComponentString(elevator.blip.label)
                 EndTextCommandSetBlipName(blip)
             end
         end
