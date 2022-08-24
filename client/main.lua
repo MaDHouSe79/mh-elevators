@@ -101,7 +101,7 @@ CreateThread(function()
                     {
                         event = "qb-elevators:client:elevatorMenu",
                         icon = "fas fa-hand-point-up",
-                        label = Lang:t('menu.use_elevator', {level = floor.level}),
+                        label = Lang:t('menu.use_elevator', {level = index}),
                         elevator = key,
                         level = index
                     },
