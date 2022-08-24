@@ -10,11 +10,6 @@ Config.ShowBlips = true
 Config.Elevators = {
 
     ['pillbox_hospital_elevator'] = {
-
-        ['jobAccess'] = {
-            ['police'] = true,
-            ['ambulance'] = true,
-        },
         
         ['blip'] = {
             ['label'] = "Pillbox Hospital Elevator",
@@ -111,35 +106,5 @@ Config.Elevators = {
             },
         }
     },
-    
-    -- you have to edit the locations on this one
-    ['lostmc_gang_elevator'] = {
 
-        ['gangAccess'] = { -- you can add more gangs
-            ['lostmc'] = true,
-        },
-
-        ['blip'] = {
-            ['label'] = "LostMC Gang Elevator",
-            ['show'] = false,
-            ['coords'] = vector3(0.0, 0.0, 0.0),
-            ['sprite'] = 728,
-            ['colour'] = 44,
-            ['scale'] = 0.8,
-        },
-
-        ['floors'] = {
-            [0] = { -- basement
-                coords = vector3(0.0, 0.0, 0.0),
-                heading = 0.0,
-                tpVehicle = true,
-            },
-
-            [1] = { -- floor 
-                coords = vector3(0.0, 0.0, 0.0),
-                heading = 0.0,
-                tpVehicle = true,
-            },
-        }
-    },
 }
