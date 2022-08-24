@@ -11,6 +11,11 @@ Config.Elevators = {
 
     ['pillbox_hospital_elevator'] = {
         
+        ['jobAccess'] = {
+            'police',
+            'ambulance',
+        },
+        
         ['blip'] = {
             ['label'] = "Pillbox Hospital Elevator",
             ['show'] = false,
