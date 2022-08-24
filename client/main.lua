@@ -3,43 +3,83 @@
 --[[ ===================================================== ]]--
 
 local QBCore = exports['qb-core']:GetCoreObject()
+local PlayerData = {}
 
-local function ElevatorMenu(data)
-    local categoryMenu = {
-        {
-            header = Lang:t('menu.elevator'),
-            isMenuHeader = true
-        }
-    }
-    for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do
-        if data.level ~= key then
-            categoryMenu[#categoryMenu + 1] = {
-                header = Lang:t('menu.floor', {level = key}),
-                params = {
-                    event = 'qb-elevators:client:useElevator',
-                    args = {
-                        level = key,
-                        location = data.elevator,
-                        coords = floor.coords,
-                        heading = floor.heading,
-                        tpVehicle = floor.tpVehicle,
-                    }
-                },
-            }
+
+local function HasAccess(floors)
+    local canAccess = true
+    PlayerData = QBCore.Functions.GetPlayerData()
+
+    -- Job Access
+    if floors['jobAccess'] then
+        for i=1, #floors['jobAccess'] do
+            if PlayerData.job.name == floors['jobAccess'][i] then
+                canAccess = true
+            else
+                canAccess = false
+            end
         end
     end
-    if Config.UseTableSort then
-        table.sort(categoryMenu, function (a, b)
-            if a.params and b.params then
-                return a.params.args.level < b.params.args.level
+
+    -- Gang Access
+    if floors['gangAccess'] then
+        for i=1, #floors['gangAccess'] do
+            if PlayerData.gang.name == floors['gangAccess'][i] then
+                canAccess = true
+            else
+                canAccess = false
             end
-        end)
+        end
     end
-    categoryMenu[#categoryMenu + 1] = {
-        header = Lang:t('menu.close_menu'),
-        params = {event = ''}
-    }
-    exports['qb-menu']:openMenu(categoryMenu)
+
+    return canAccess
+end
+
+
+local function ElevatorMenu(data)
+
+    if HasAccess(Config.Elevators[data.elevator]) then
+
+        local categoryMenu = {
+            {
+                header = Lang:t('menu.elevator', {level = data.level}),
+                isMenuHeader = true
+            }
+        }
+
+        for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
+            if data.level ~= key then
+                categoryMenu[#categoryMenu + 1] = {
+                    header = Lang:t('menu.floor', {level = key}),
+                    params = {
+                        event = 'qb-elevators:client:useElevator',
+                        args = {
+                            level = key,
+                            location = data.elevator,
+                            coords = floor.coords,
+                            heading = floor.heading,
+                            tpVehicle = floor.tpVehicle,
+                        }
+                    },
+                }
+            end
+        end
+        if Config.UseTableSort then
+            table.sort(categoryMenu, function (a, b)
+                if a.params and b.params then
+                    return a.params.args.level < b.params.args.level
+                end
+            end)
+        end
+        categoryMenu[#categoryMenu + 1] = {
+            header = Lang:t('menu.close_menu'),
+            params = {event = ''}
+        }
+        exports['qb-menu']:openMenu(categoryMenu)
+    else
+        QBCore.Functions.Notify(Lang:t('error.no_access'), "error", 5000)
+    end
+
 end
 
 local function UseElevator(data)
@@ -47,7 +87,7 @@ local function UseElevator(data)
     local vehicle = nil
     if data.tpVehicle and IsPedInAnyVehicle(ped) then vehicle = GetVehiclePedIsIn(ped) end
     DoScreenFadeOut(500)
-	while not IsScreenFadedOut() do Wait(10) end
+    while not IsScreenFadedOut() do Wait(10) end
     RequestCollisionAtCoord(data.coords.x, data.coords.y, data.coords.z)
     while not HasCollisionLoadedAroundEntity(ped) do Wait(0) end
     if data.tpVehicle and vehicle ~= nil then
@@ -60,6 +100,14 @@ local function UseElevator(data)
     Wait(1500)
 	DoScreenFadeIn(500)
 end
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()	
+    PlayerData = QBCore.Functions.GetPlayerData()
+end)
+
+RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
+    PlayerData = data
+end)
 
 RegisterNetEvent('qb-elevators:client:useElevator', function(data)
     UseElevator(data)
@@ -103,7 +151,8 @@ CreateThread(function()
                         icon = "fas fa-hand-point-up",
                         label = Lang:t('menu.use_elevator', {level = index}),
                         elevator = key,
-                        level = index
+                        level = index,
+                        floor.jobAccess
                     },
                 },
                 distance = 2.0
