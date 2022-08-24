@@ -11,7 +11,7 @@ Config.Elevators = {
 
     ['pillbox_hospital_elevator'] = {
         
-        ['jobAccess'] = {
+        ['jobAccess'] = { -- you can add more jobs
             'police',
             'ambulance',
         },
