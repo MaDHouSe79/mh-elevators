@@ -1,7 +1,7 @@
 ## QB-Elevators Created by MaDHouSe79
 - just a simpel elevator script.
 - this elevator script also works with htemost vehicles if you set `tpVehicle` to `true`
-
+- you can also use jobAccess 
 
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
