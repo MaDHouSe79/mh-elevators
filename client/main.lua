@@ -3,83 +3,44 @@
 --[[ ===================================================== ]]--
 
 local QBCore = exports['qb-core']:GetCoreObject()
-local PlayerData = {}
-
-
-local function HasAccess(floors)
-    local canAccess = true
-    PlayerData = QBCore.Functions.GetPlayerData()
-
-    -- Job Access
-    if floors['jobAccess'] then
-        for i=1, #floors['jobAccess'] do
-            if PlayerData.job.name == floors['jobAccess'][i] then
-                canAccess = true
-            else
-                canAccess = false
-            end
-        end
-    end
-
-    -- Gang Access
-    if floors['gangAccess'] then
-        for i=1, #floors['gangAccess'] do
-            if PlayerData.gang.name == floors['gangAccess'][i] then
-                canAccess = true
-            else
-                canAccess = false
-            end
-        end
-    end
-
-    return canAccess
-end
-
 
 local function ElevatorMenu(data)
+    local categoryMenu = {
+        {
+            header = Lang:t('menu.elevator', {level = data.level}),
+            isMenuHeader = true
+        }
+    }
 
-    if HasAccess(Config.Elevators[data.elevator]) then
-
-        local categoryMenu = {
-            {
-                header = Lang:t('menu.elevator', {level = data.level}),
-                isMenuHeader = true
+    for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
+        if data.level ~= key then
+            categoryMenu[#categoryMenu + 1] = {
+                header = Lang:t('menu.floor', {level = key}),
+                params = {
+                    event = 'qb-elevators:client:useElevator',
+                    args = {
+                        level = key,
+                        location = data.elevator,
+                        coords = floor.coords,
+                        heading = floor.heading,
+                        tpVehicle = floor.tpVehicle,
+                    }
+                },
             }
-        }
-
-        for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
-            if data.level ~= key then
-                categoryMenu[#categoryMenu + 1] = {
-                    header = Lang:t('menu.floor', {level = key}),
-                    params = {
-                        event = 'qb-elevators:client:useElevator',
-                        args = {
-                            level = key,
-                            location = data.elevator,
-                            coords = floor.coords,
-                            heading = floor.heading,
-                            tpVehicle = floor.tpVehicle,
-                        }
-                    },
-                }
-            end
         end
-        if Config.UseTableSort then
-            table.sort(categoryMenu, function (a, b)
-                if a.params and b.params then
-                    return a.params.args.level < b.params.args.level
-                end
-            end)
-        end
-        categoryMenu[#categoryMenu + 1] = {
-            header = Lang:t('menu.close_menu'),
-            params = {event = ''}
-        }
-        exports['qb-menu']:openMenu(categoryMenu)
-    else
-        QBCore.Functions.Notify(Lang:t('error.no_access'), "error", 5000)
     end
-
+    if Config.UseTableSort then
+        table.sort(categoryMenu, function (a, b)
+            if a.params and b.params then
+                return a.params.args.level < b.params.args.level
+            end
+        end)
+    end
+    categoryMenu[#categoryMenu + 1] = {
+        header = Lang:t('menu.close_menu'),
+        params = {event = ''}
+    }
+    exports['qb-menu']:openMenu(categoryMenu)
 end
 
 local function UseElevator(data)
@@ -101,14 +62,6 @@ local function UseElevator(data)
 	DoScreenFadeIn(500)
 end
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()	
-    PlayerData = QBCore.Functions.GetPlayerData()
-end)
-
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
-    PlayerData = data
-end)
-
 RegisterNetEvent('qb-elevators:client:useElevator', function(data)
     UseElevator(data)
 end)
@@ -119,15 +72,15 @@ end)
 
 CreateThread(function()
     if Config.ShowBlips then
-        for key, elevator in pairs(Config.Elevators) do
-            if elevator.blip.show then
-                local blip = AddBlipForCoord(elevator.blip.coords.x, elevator.blip.coords.y, elevator.blip.coords.z)
-                SetBlipSprite(blip, elevator.blip.sprite)
+        for key, lift in pairs(Config.Elevators) do
+            if lift.blip.show then
+                local blip = AddBlipForCoord(lift.blip.coords.x, lift.blip.coords.y, lift.blip.coords.z)
+                SetBlipSprite(blip, lift.blip.sprite)
                 SetBlipAsShortRange(blip, true)
-                SetBlipScale(blip, elevator.blip.scale)
-                SetBlipColour(blip, elevator.blip.colour)
+                SetBlipScale(blip, lift.blip.scale)
+                SetBlipColour(blip, lift.blip.colour)
                 BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString(elevator.blip.label)
+                AddTextComponentString(lift.blip.label)
                 EndTextCommandSetBlipName(blip)
             end
         end
