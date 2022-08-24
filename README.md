@@ -1,6 +1,6 @@
 ## QB-Elevators Created by MaDHouSe79
 - just a simpel elevator script.
-- this elevator script also works with vehicles if you set `tpVehicle` to `true`
+- this elevator script also works with htemost vehicles if you set `tpVehicle` to `true`
 
 
 ## Dependencies
