@@ -4,7 +4,7 @@ local Translations = {
     },
     menu = {
         ['elevator']     = "Lift",
-        ['use_elevator'] = "Use the elevator from %{level}",
+        ['use_elevator'] = "Use the elevator from floor %{level}",
         ['close_menu']   = "Close menu",
         ['floor']        = "Floor %{level}",
     },
