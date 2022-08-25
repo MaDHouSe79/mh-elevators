@@ -104,8 +104,7 @@ CreateThread(function()
                         icon = "fas fa-hand-point-up",
                         label = Lang:t('menu.use_elevator', {level = index}),
                         elevator = key,
-                        level = index,
-                        floor.jobAccess
+                        level = index
                     },
                 },
                 distance = 2.0
