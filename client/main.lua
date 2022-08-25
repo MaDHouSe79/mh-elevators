@@ -11,21 +11,23 @@ local function ElevatorMenu(data)
             isMenuHeader = true
         }
     }
-    for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
-        categoryMenu[#categoryMenu + 1] = {
-            header = Lang:t('menu.floor', {level = key}),
-            params = {
-                event = 'qb-elevators:client:useElevator',
-                args = {
-                    level = key,
-                    location = data.elevator,
-                    coords = floor.coords,
-                    heading = floor.heading,
-                    tpVehicle = floor.tpVehicle,
-                }
-            },
-        }
 
+    for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
+        if data.level ~= key then
+            categoryMenu[#categoryMenu + 1] = {
+                header = Lang:t('menu.floor', {level = key}),
+                params = {
+                    event = 'qb-elevators:client:useElevator',
+                    args = {
+                        level = key,
+                        location = data.elevator,
+                        coords = floor.coords,
+                        heading = floor.heading,
+                        tpVehicle = floor.tpVehicle,
+                    }
+                },
+            }
+        end
     end
     if Config.UseTableSort then
         table.sort(categoryMenu, function (a, b)
@@ -102,7 +104,8 @@ CreateThread(function()
                         icon = "fas fa-hand-point-up",
                         label = Lang:t('menu.use_elevator', {level = index}),
                         elevator = key,
-                        level = index
+                        level = index,
+                        floor.jobAccess
                     },
                 },
                 distance = 2.0
