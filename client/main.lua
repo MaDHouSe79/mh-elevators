@@ -11,23 +11,21 @@ local function ElevatorMenu(data)
             isMenuHeader = true
         }
     }
-
     for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
-        if data.level ~= key then
-            categoryMenu[#categoryMenu + 1] = {
-                header = Lang:t('menu.floor', {level = key}),
-                params = {
-                    event = 'qb-elevators:client:useElevator',
-                    args = {
-                        level = key,
-                        location = data.elevator,
-                        coords = floor.coords,
-                        heading = floor.heading,
-                        tpVehicle = floor.tpVehicle,
-                    }
-                },
-            }
-        end
+        categoryMenu[#categoryMenu + 1] = {
+            header = Lang:t('menu.floor', {level = key}),
+            params = {
+                event = 'qb-elevators:client:useElevator',
+                args = {
+                    level = key,
+                    location = data.elevator,
+                    coords = floor.coords,
+                    heading = floor.heading,
+                    tpVehicle = floor.tpVehicle,
+                }
+            },
+        }
+
     end
     if Config.UseTableSort then
         table.sort(categoryMenu, function (a, b)
@@ -48,7 +46,7 @@ local function UseElevator(data)
     local vehicle = nil
     if data.tpVehicle and IsPedInAnyVehicle(ped) then vehicle = GetVehiclePedIsIn(ped) end
     DoScreenFadeOut(500)
-    while not IsScreenFadedOut() do Wait(10) end
+	while not IsScreenFadedOut() do Wait(10) end
     RequestCollisionAtCoord(data.coords.x, data.coords.y, data.coords.z)
     while not HasCollisionLoadedAroundEntity(ped) do Wait(0) end
     if data.tpVehicle and vehicle ~= nil then
@@ -104,8 +102,7 @@ CreateThread(function()
                         icon = "fas fa-hand-point-up",
                         label = Lang:t('menu.use_elevator', {level = index}),
                         elevator = key,
-                        level = index,
-                        floor.jobAccess
+                        level = index
                     },
                 },
                 distance = 2.0
