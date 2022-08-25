@@ -88,7 +88,7 @@ end)
 CreateThread(function()
     for key, floors in pairs(Config.Elevators) do
         for index, floor in pairs(floors['floors']) do
-            exports["qb-target"]:AddBoxZone(index, floor.coords, 5, 4, {
+            exports["qb-target"]:AddBoxZone(index..key, floor.coords, 5, 4, {
                 name = index,
                 heading = floor.heading,
                 debugPoly = false,
