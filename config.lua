@@ -108,7 +108,7 @@ Config.Elevators = {
         }
     },
 
-    ['politieburo_elevator']= {
+    ['police_elevator']= {
 
         ['blip'] = {
             ['label'] = "Politie List",
