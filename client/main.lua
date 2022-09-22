@@ -29,13 +29,21 @@ local function ElevatorMenu(data)
             }
         end
     end
+    
     if Config.UseTableSort then
         table.sort(categoryMenu, function (a, b)
             if a.params and b.params then
                 return a.params.args.level < b.params.args.level
             end
         end)
+    else
+        table.sort(categoryMenu, function (a, b)
+            if a.params and b.params then
+                return b.params.args.level < a.params.args.level
+            end
+        end)
     end
+
     categoryMenu[#categoryMenu + 1] = {
         header = Lang:t('menu.close_menu'),
         params = {event = ''}
