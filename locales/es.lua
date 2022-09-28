@@ -1,9 +1,10 @@
 local Translations = {
     error = {
-        ['no_access'] = "No tienes acceso a este ascensor",
+        ['no_access'] = "No está autorizado a utilizar este ascensor.",
     },
     menu = {
-        ['elevator']     = "Ascensor",
+        ['popup']        = "[E] - Ascensor",
+        ['elevator']     = "%{label}",
         ['use_elevator'] = "Utilice el ascensor desde el piso %{level}",
         ['close_menu']   = "Cerrar menú",
         ['floor']        = "Piso %{level}",
