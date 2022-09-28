@@ -4,7 +4,6 @@
 
 local QBCore = exports['qb-core']:GetCoreObject()
 local PlayerData = {}
-
 local inElevatorZone = false
 
 
@@ -75,7 +74,7 @@ local function UseElevator(data)
     local vehicle = nil
     if data.tpVehicle and IsPedInAnyVehicle(ped) then vehicle = GetVehiclePedIsIn(ped) end
     DoScreenFadeOut(500)
-	while not IsScreenFadedOut() do Wait(10) end
+    while not IsScreenFadedOut() do Wait(10) end
     RequestCollisionAtCoord(data.coords.x, data.coords.y, data.coords.z)
     while not HasCollisionLoadedAroundEntity(ped) do Wait(0) end
     if data.tpVehicle and vehicle ~= nil then
@@ -86,12 +85,12 @@ local function UseElevator(data)
         SetEntityHeading(ped, data.heading)
     end
     Wait(1500)
-	DoScreenFadeIn(500)
+    DoScreenFadeIn(500)
     exports['qb-core']:DrawText(Lang:t('menu.popup'))
 end
 
 local listen = false
- local function Listen4Control(data)
+local function Listen4Control(data)
     CreateThread(function()
         listen = true
         while listen do
