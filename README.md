@@ -16,6 +16,7 @@
 
 ## Add or Change elevators
 - you can change this in the `config.lua` file.
+- support target and DrawText Menu.
 
 
 ## 🐞 Any bugs, let my know.
