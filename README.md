@@ -1,6 +1,7 @@
 ## QB-Elevators Created by MaDHouSe79
 - just a simpel elevator script.
 - this elevator script also works with htemost vehicles if you set `tpVehicle` to `true`
+- support authorized jobs, gangs or pulic access for the elevators
 
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
