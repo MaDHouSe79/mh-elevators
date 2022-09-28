@@ -1,9 +1,10 @@
 local Translations = {
     error = {
-        ['no_access'] = "Je hebt geen toegang tot deze lift",
+        ['no_access'] = "Je bent niet gemachtigd om deze lift te gebruiken.",
     },
     menu = {
-        ['elevator']     = "Lift",
+        ['popup']        = "[E] - Lift",
+        ['elevator']     = "%{label}",
         ['use_elevator'] = "Gebruik de lift op verdieping %{level}",
         ['close_menu']   = "Sluit menu",
         ['floor']        = "Verdieping %{level}",
