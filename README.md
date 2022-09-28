@@ -1,4 +1,4 @@
-## QB-Elevators Created by MaDHouSe79
+## MH-Elevators Created by MaDHouSe79
 - just a simpel elevator script.
 - this elevator script also works with the most vehicles if you set `tpVehicle` to `true`
 - support authorized jobs, gangs or pulic access for the elevators
@@ -17,7 +17,6 @@
 
 ## Add or Change elevators
 - you can change this in the `config.lua` file.
-
 
 
 ## 🐞 Any bugs, let my know.
