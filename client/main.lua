@@ -5,7 +5,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local PlayerData = {}
 
-local listen = false
+local inElevatorZone = false
+
 
 local function isAuthorized(authorizedList)
     for _, job in pairs(authorizedList) do
@@ -89,7 +90,8 @@ local function UseElevator(data)
     exports['qb-core']:DrawText(Lang:t('menu.popup'))
 end
 
-local function Listen4Control(data)
+local listen = false
+ local function Listen4Control(data)
     CreateThread(function()
         listen = true
         while listen do
@@ -183,8 +185,11 @@ function PrepareElevatorMenu()
                     if isPointInside then
                         exports['qb-core']:DrawText(Lang:t('menu.popup'))
                         local data = {elevator = i, level = index, menu = floors.blip.label, authorized = floors.authorized}
+                        inElevatorZone = true
                         Listen4Control(data)
                     else
+                        inElevatorZone = false
+                        listen = false
                         exports['qb-core']:HideText()
                     end
                 end)
