@@ -28,7 +28,6 @@ Config.Elevators = {
             [0] = { -- basement
                 coords = vector3(341.05, -580.84, 28.8), 
                 heading = 86.6,
-                minz = 1.0,
                 tpVehicle = false,
             },
 
