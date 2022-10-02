@@ -4,6 +4,8 @@
 
 Config = {}
 
+Config.CheckForUpdates  = true
+
 Config.UseTableSort = false
 Config.ShowBlips = true
 
