@@ -1,5 +1,5 @@
 local user = "MaDHouSe79"
-local script = "mh-mygaragemenu"
+local script = "mh-elevators"
 
 local function checkVersion(err, responseText, headers)
     curVersion = LoadResourceFile(GetCurrentResourceName(), "version")
