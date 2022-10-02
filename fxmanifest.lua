@@ -24,5 +24,8 @@ client_scripts {
     'client/main.lua',
 }
 
+server_scripts {
+    'server/update.lua',
+}
 
 lua54 'yes'
