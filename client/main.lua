@@ -187,9 +187,11 @@ function PrepareElevatorMenu()
                         inElevatorZone = true
                         Listen4Control(data)
                     else
+                        if inElevatorZone then
+                            exports['qb-core']:HideText()
+                        end
                         inElevatorZone = false
                         listen = false
-                        exports['qb-core']:HideText()
                     end
                 end)
             end
