@@ -1,6 +1,8 @@
 local user = "MaDHouSe79"
 local script = "mh-elevators"
 
+local resourceName = mil
+
 local function checkVersion(err, responseText, headers)
     curVersion = LoadResourceFile(GetCurrentResourceName(), "version")
     if responseText == nil then
@@ -24,8 +26,7 @@ end
 
 if Config.CheckForUpdates then
     Citizen.CreateThread( function()
-        updatePath   = "/"..user.."/"..script
         resourceName = ""..GetCurrentResourceName()..""
-        PerformHttpRequest("https://raw.githubusercontent.com"..updatePath.."/master/version", checkVersion, "GET")
+        PerformHttpRequest("https://raw.githubusercontent.com".."/"..user.."/"..script.."/master/version", checkVersion, "GET")
     end)
 end
