@@ -52,7 +52,7 @@ Config.Elevators = {
         ['authorized'] = {"public"}, -- job or gang or public
 
         ['blip'] = {
-            ['label'] = "Red Garage Lift",
+            ['label'] = "Red Garage Elevator",
             ['show'] = false,
             ['coords'] = vector3(-322.65, -774.91, 33.96),
             ['sprite'] = 728,
@@ -121,7 +121,7 @@ Config.Elevators = {
         ['authorized'] = {"police", "ambulance"}, -- job or gang or public
 
         ['blip'] = {
-            ['label'] = "Politie Lift",
+            ['label'] = "Politie Elevator",
             ['show'] = false,
             ['coords'] = vector3(-1097.7673, -848.4358, 4.8841),
             ['sprite'] = 728,
@@ -185,7 +185,7 @@ Config.Elevators = {
         ['authorized'] = {"public"}, -- job or gang or public
 
         ['blip'] = {
-            ['label'] = "Diamond Casino Lift",
+            ['label'] = "Diamond Casino Elevator",
             ['show'] = false,
             ['coords'] = vector3(960.5756, 43.4318, 71.7007),
             ['sprite'] = 728,
