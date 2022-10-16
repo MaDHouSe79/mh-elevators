@@ -113,9 +113,11 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
     PlayerData = data
 end)
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
-    PlayerData.job = job
-    PrepareElevatorMenu()
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+        PlayerData = QBCore.Functions.GetPlayerData()
+        PrepareElevatorMenu()
+    end
 end)
 
 RegisterNetEvent('qb-elevators:client:useElevator', function(data)
