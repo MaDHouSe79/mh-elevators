@@ -106,6 +106,7 @@ end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     PlayerData = QBCore.Functions.GetPlayerData()
+    PrepareElevatorMenu()
 end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
