@@ -22,5 +22,5 @@
 ## 🐞 Any bugs, let my know.
 
 ## 🙈 Youtube & Discord
-- [Youtube](https://www.youtube.com/c/MaDHouSe79)
+- [Youtube](https://www.youtube.com/@MaDHouSe79)
 - [Discord](https://discord.gg/cEMSeE9dgS)
