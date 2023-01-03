@@ -1,3 +1,7 @@
+--[[ ===================================================== ]]--
+--[[            MH Elevators Script by MaDHouSe            ]]--
+--[[ ===================================================== ]]--
+
 local Translations = {
     error = {
         ['no_access'] = "No está autorizado a utilizar este ascensor.",
