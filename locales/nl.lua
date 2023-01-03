@@ -1,3 +1,7 @@
+--[[ ===================================================== ]]--
+--[[            MH Elevators Script by MaDHouSe            ]]--
+--[[ ===================================================== ]]--
+
 local Translations = {
     error = {
         ['no_access'] = "Je bent niet gemachtigd om deze lift te gebruiken.",
