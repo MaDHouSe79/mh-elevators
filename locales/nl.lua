@@ -7,7 +7,7 @@ local Translations = {
         ['elevator']     = "%{label}",
         ['use_elevator'] = "Gebruik de lift op verdieping %{level}",
         ['close_menu']   = "Sluit menu",
-        ['floor']        = "Verdieping %{level}",
+        ['floor']        = "Verdieping %{level} %{name}",
     },
 }
 
