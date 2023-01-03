@@ -7,7 +7,7 @@ local Translations = {
         ['elevator']     = "%{label}",
         ['use_elevator'] = "Use the elevator on the floor %{level}",
         ['close_menu']   = "Close menu",
-        ['floor']        = "Floor %{level}",
+        ['floor']        = "Floor %{level} %{name}",
     },
 }
 
@@ -15,4 +15,3 @@ Lang = Locale:new({
     phrases = Translations,
     warnOnMissing = true
 })
-
