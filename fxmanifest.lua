@@ -1,5 +1,5 @@
 --[[ ===================================================== ]]--
---[[          QBCore Elevators Script by MaDHouSe          ]]--
+--[[            MH Elevators Script by MaDHouSe            ]]--
 --[[ ===================================================== ]]--
 
 fx_version 'cerulean'
