@@ -1,11 +1,10 @@
 --[[ ===================================================== ]]--
---[[          QBCore Elevators Script by MaDHouSe          ]]--
+--[[            MH Elevators Script by MaDHouSe            ]]--
 --[[ ===================================================== ]]--
 
 local QBCore = exports['qb-core']:GetCoreObject()
 local PlayerData = {}
 local inElevatorZone = false
-
 
 local function isAuthorized(authorizedList)
     for _, job in pairs(authorizedList) do
@@ -32,7 +31,7 @@ local function ElevatorMenu(data)
         for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
             if data.level ~= key then
                 categoryMenu[#categoryMenu + 1] = {
-                    header = Lang:t('menu.floor', {level = key}),
+                    header = Lang:t('menu.floor', {level = key, name = floor.name}),
                     params = {
                         event = 'qb-elevators:client:useElevator',
                         args = {
@@ -86,65 +85,24 @@ local function UseElevator(data)
     end
     Wait(1500)
     DoScreenFadeIn(500)
-    exports['qb-core']:DrawText(Lang:t('menu.popup'))
 end
 
 local listen = false
 local function Listen4Control(data)
     CreateThread(function()
-        listen = true
-        while listen do
-            if IsControlJustPressed(0, 38) then -- E
-                ElevatorMenu(data)
-                listen = false
-                break
+        if LocalPlayer.state.isLoggedIn then
+            listen = true
+            while listen do
+                if IsControlJustPressed(0, 38) and inElevatorZone then -- E
+                    ElevatorMenu(data)
+                    listen = false
+                    break
+                end
+                Wait(1)
             end
-            Wait(1)
         end
     end)
 end
-
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    PlayerData = QBCore.Functions.GetPlayerData()
-    PrepareElevatorMenu()
-end)
-
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
-    PlayerData = data
-end)
-
-AddEventHandler('onResourceStart', function(resource)
-    if resource == GetCurrentResourceName() then
-        PlayerData = QBCore.Functions.GetPlayerData()
-        PrepareElevatorMenu()
-    end
-end)
-
-RegisterNetEvent('qb-elevators:client:useElevator', function(data)
-    UseElevator(data)
-end)
-
-RegisterNetEvent('qb-elevators:client:elevatorMenu', function(data)
-    ElevatorMenu(data)
-    exports['qb-core']:HideText()
-end)
-
-CreateThread(function()
-    if Config.ShowBlips then
-        for key, lift in pairs(Config.Elevators) do
-            if lift.blip.show then
-                local blip = AddBlipForCoord(lift.blip.coords.x, lift.blip.coords.y, lift.blip.coords.z)
-                SetBlipSprite(blip, lift.blip.sprite)
-                SetBlipAsShortRange(blip, true)
-                SetBlipScale(blip, lift.blip.scale)
-                SetBlipColour(blip, lift.blip.colour)
-                BeginTextCommandSetBlipName("STRING")
-                AddTextComponentString(lift.blip.label)
-                EndTextCommandSetBlipName(blip)
-            end
-        end
-    end
-end)
 
 function PrepareElevatorMenu()
     if Config.UseTarget then
@@ -176,14 +134,14 @@ function PrepareElevatorMenu()
     else
         for i, floors in pairs(Config.Elevators) do
             for index, floor in pairs(floors['floors']) do
-                BoxZone = BoxZone:Create(floor.coords, 2.0, 2.0, {
+                LiftZone = BoxZone:Create(floor.coords, 2.0, 2.0, {
                     heading = floor.heading,
                     minZ = floor.coords.z - 1.0,
                     maxZ = floor.coords.z + 1.0,
                     debugPoly = false,
                     name = index..i,
                 })
-                BoxZone:onPlayerInOut(function(isPointInside)
+                LiftZone:onPlayerInOut(function(isPointInside)
                     if isPointInside then
                         exports['qb-core']:DrawText(Lang:t('menu.popup'))
                         local data = {elevator = i, level = index, menu = floors.blip.label, authorized = floors.authorized}
@@ -201,3 +159,48 @@ function PrepareElevatorMenu()
         end
     end
 end
+
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    PlayerData = QBCore.Functions.GetPlayerData()
+end)
+
+RegisterNetEvent('QBCore:Player:SetPlayerData', function(data)
+    PlayerData = data
+end)
+
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
+    PlayerData.job = job
+    PrepareElevatorMenu()
+end)
+
+AddEventHandler('onResourceStart', function(resource)
+    if resource == GetCurrentResourceName() then
+        PlayerData = QBCore.Functions.GetPlayerData()
+        PrepareElevatorMenu()
+    end
+end)
+
+RegisterNetEvent('qb-elevators:client:useElevator', function(data)
+    UseElevator(data)
+end)
+
+RegisterNetEvent('qb-elevators:client:elevatorMenu', function(data)
+    ElevatorMenu(data)
+end)
+
+CreateThread(function()
+    if Config.ShowBlips then
+        for key, lift in pairs(Config.Elevators) do
+            if lift.blip.show then
+                local blip = AddBlipForCoord(lift.blip.coords.x, lift.blip.coords.y, lift.blip.coords.z)
+                SetBlipSprite(blip, lift.blip.sprite)
+                SetBlipAsShortRange(blip, true)
+                SetBlipScale(blip, lift.blip.scale)
+                SetBlipColour(blip, lift.blip.colour)
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString(lift.blip.label)
+                EndTextCommandSetBlipName(blip)
+            end
+        end
+    end
+end)
