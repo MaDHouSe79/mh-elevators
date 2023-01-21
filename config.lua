@@ -111,7 +111,7 @@ Config.Elevators = {
 
         ['floors'] = {
             [1] = { -- basement
-                name = "floor 1"
+                name = "floor 1",
                 coords = vector3(-84.03, -820.96, 35.62),
                 heading = 349.74,
                 tpVehicle = true,
