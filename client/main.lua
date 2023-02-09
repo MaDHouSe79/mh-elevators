@@ -183,10 +183,12 @@ end)
 
 RegisterNetEvent('qb-elevators:client:useElevator', function(data)
     UseElevator(data)
+    exports['qb-core']:HideText()
 end)
 
 RegisterNetEvent('qb-elevators:client:elevatorMenu', function(data)
     ElevatorMenu(data)
+    exports['qb-core']:HideText()
 end)
 
 CreateThread(function()
