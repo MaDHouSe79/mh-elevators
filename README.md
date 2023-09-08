@@ -40,6 +40,7 @@
 
 ## How to install:
 - Copy the directory `mh-elevators` to `resources/[qb]/`
+- Copy the file `elevator-sound.ogg` to `resources\[standalone]\interact-sound\client\html\sounds`
 - Restart your server.
 
 
