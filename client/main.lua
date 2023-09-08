@@ -83,6 +83,8 @@ local function UseElevator(data)
         SetEntityCoords(ped, data.coords.x, data.coords.y, data.coords.z, false, false, false, false)
         SetEntityHeading(ped, data.heading)
     end
+    Wait(1000)
+    TriggerServerEvent("InteractSound_SV:PlayOnSource", "elevator-ding", 0.5)
     Wait(1500)
     DoScreenFadeIn(500)
 end
