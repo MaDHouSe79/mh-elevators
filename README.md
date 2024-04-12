@@ -1,3 +1,7 @@
+Adaptado para QBOX
+Dependência: ox_compat
+
+
 <p align="center">
     <img width="140" src="https://icons.iconarchive.com/icons/iconarchive/red-orb-alphabet/128/Letter-M-icon.png" />  
     <h1 align="center">Hi 👋, I'm MaDHouSe</h1>
