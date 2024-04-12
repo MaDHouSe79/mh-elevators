@@ -1,5 +1,5 @@
 --[[ ===================================================== ]]--
---[[            MH Elevators Script by MaDHouSe            ]]--
+--[[            MH Elevators Script by MaDHouSe <--------- EDITADO POR MUR4I (discord: .mur4i) p/ funcionar com a mri_Qbox, tome cuidado com outras frameworks
 --[[ ===================================================== ]]--
 
 local QBCore = exports['qb-core']:GetCoreObject()
@@ -23,12 +23,26 @@ local function ElevatorMenu(data)
     local authorized = isAuthorized(data.authorized)
     if authorized then
         local categoryMenu = {
-            {
-                header = Lang:t('menu.elevator', {label = data.menu}),
-                isMenuHeader = true
-            }
+            -- title = Lang:t('menu.elevator', {label = data.menu}),
+            -- {
+            --     header = Lang:t('menu.elevator', {label = data.menu}),
+            --     isMenuHeader = true
+            -- }
         }
-        for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do        
+
+        for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do
+            if data.level == key then
+                categoryMenu = {
+                    -- title = Lang:t('menu.elevator', {label = data.menu}),
+                    {
+                        header = Lang:t('menu.floor', {level = key, name = floor.name}).." (atual)",
+                        isMenuHeader = true
+                    }
+                }
+            end
+        end
+
+        for key, floor in pairs(Config.Elevators[data.elevator]['floors']) do
             if data.level ~= key then
                 categoryMenu[#categoryMenu + 1] = {
                     header = Lang:t('menu.floor', {level = key, name = floor.name}),
@@ -45,6 +59,7 @@ local function ElevatorMenu(data)
                 }
             end
         end
+
         if Config.UseTableSort then
             table.sort(categoryMenu, function (a, b)
                 if a.params and b.params then
@@ -58,10 +73,11 @@ local function ElevatorMenu(data)
                 end
             end)
         end
-        categoryMenu[#categoryMenu + 1] = {
-            header = Lang:t('menu.close_menu'),
-            params = {event = ''}
-        }
+        -- categoryMenu[#categoryMenu + 1] = {
+        --     header = Lang:t('menu.close_menu'),
+        --     params = {event = ''}
+        -- }
+        -- categoryMenu.title = "Elevador"
         exports['qb-menu']:openMenu(categoryMenu)
     else
         QBCore.Functions.Notify(Lang:t('error.no_access'))
@@ -84,7 +100,7 @@ local function UseElevator(data)
         SetEntityHeading(ped, data.heading)
     end
     Wait(1000)
-    TriggerServerEvent("InteractSound_SV:PlayOnSource", "elevator-ding", 0.5)
+    TriggerServerEvent("InteractSound_SV:PlayOnSource", "liftSoundBellRing", 0.4)
     Wait(1500)
     DoScreenFadeIn(500)
 end
@@ -107,59 +123,69 @@ local function Listen4Control(data)
 end
 
 function PrepareElevatorMenu()
-    if Config.UseTarget then
+    -- if Config.UseTarget then
         for key, floors in pairs(Config.Elevators) do
             for index, floor in pairs(floors['floors']) do
-                exports["qb-target"]:RemoveZone(index..key)
-                exports["qb-target"]:AddBoxZone(index..key, floor.coords, 5, 4, {
-                    name = index,
-                    heading = floor.heading,
-                    debugPoly = false,
-                    minZ = floor.coords.z - 1.0,
-                    maxZ = floor.coords.z + 1.0
-                }, {
-                    options = {
-                        {
-                            event = "qb-elevators:client:elevatorMenu",
-                            icon = "fas fa-hand-point-up",
-                            label = Lang:t('menu.use_elevator', {level = index}),
-                            elevator = key,
-                            level = index,
-                            menu = floors.blip.label,
-                            authorized = floors.authorized
+                if floor.tpVehicle == false then
+                    exports["qb-target"]:RemoveZone(index..key)
+                    exports["qb-target"]:AddBoxZone(index..key, floor.coords, 5, 4, {
+                        name = index,
+                        heading = floor.heading,
+                        debugPoly = false,
+                        minZ = floor.coords.z - 1.0,
+                        maxZ = floor.coords.z + 0
+                    }, {
+                        options = {
+                            {
+                                event = "qb-elevators:client:elevatorMenu",
+                                icon = "fa-solid fa-elevator",
+                                label = Lang:t('menu.use_elevator', {level = index}),
+                                elevator = key,
+                                level = index,
+                                menu = floors.blip.label,
+                                authorized = floors.authorized
+                            },
                         },
-                    },
-                    distance = 2.5
-                })
+                        distance = 2.5
+                    })
+                end
             end
         end
-    else
+    -- else
         for i, floors in pairs(Config.Elevators) do
             for index, floor in pairs(floors['floors']) do
-                LiftZone = BoxZone:Create(floor.coords, 2.0, 2.0, {
-                    heading = floor.heading,
-                    minZ = floor.coords.z - 1.0,
-                    maxZ = floor.coords.z + 1.0,
-                    debugPoly = false,
-                    name = index..i,
-                })
-                LiftZone:onPlayerInOut(function(isPointInside)
-                    if isPointInside then
-                        exports['qb-core']:DrawText(Lang:t('menu.popup'))
-                        local data = {elevator = i, level = index, menu = floors.blip.label, authorized = floors.authorized}
-                        inElevatorZone = true
-                        Listen4Control(data)
-                    else
-                        if inElevatorZone then
-                            exports['qb-core']:HideText()
+                if floor.tpVehicle == true then
+                    LiftZone = BoxZone:Create(floor.coords, 2.0, 2.0, {
+                        heading = floor.heading,
+                        minZ = floor.coords.z - 1.0,
+                        maxZ = floor.coords.z + 1.0,
+                        debugPoly = false,
+                        name = index..i,
+                    })
+                    LiftZone:onPlayerInOut(function(isPointInside)
+                        if isPointInside then
+                            lib.showTextUI(Lang:t('menu.popup'), {
+                                icon = "fa-solid fa-elevator",
+                                position = "right-center",
+                                iconAnimation = "bounce"
+                            })
+
+                            -- exports['qb-core']:DrawText(Lang:t('menu.popup'))
+                            local data = {elevator = i, level = index, menu = floors.blip.label, authorized = floors.authorized}
+                            inElevatorZone = true
+                            Listen4Control(data)
+                        else
+                            if inElevatorZone then
+                                exports['qb-core']:HideText()
+                            end
+                            inElevatorZone = false
+                            listen = false
                         end
-                        inElevatorZone = false
-                        listen = false
-                    end
-                end)
+                    end)
+                end
             end
         end
-    end
+    -- end
 end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()

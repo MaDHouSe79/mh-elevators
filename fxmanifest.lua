@@ -10,8 +10,9 @@ description 'QB Elevators'
 version '1.0.0'
 
 shared_scripts {
-    '@qb-core/shared/locale.lua',
-    'locales/en.lua', -- change en to your language
+    '@ox_lib/init.lua',
+    '@qbx_core/shared/locale.lua',
+    'locales/pt-br.lua', -- change en to your language
     'config.lua',
 }
 

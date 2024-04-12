@@ -4,13 +4,13 @@
 
 Config = {}
 
-Config.UseTableSort = false
-Config.ShowBlips = true
+Config.UseTableSort = true
+Config.ShowBlips = false
 
 Config.DebugPoly = false
 
 -- Use qb-target interactions (don't change this, go to your server.cfg and add: setr UseTarget true)
-Config.UseTarget = false--GetConvar('UseTarget', 'false') == 'true'
+-- Config.UseTarget = true--GetConvar('UseTarget', 'false') == 'true'
 
 Config.Elevators = {
     
@@ -101,7 +101,7 @@ Config.Elevators = {
         ['authorized'] = {"public"},
 
         ['blip'] = {
-            ['label'] = "Maze Bank Vehicle Lift",
+            ['label'] = "Elevador Maze Bank",
             ['show'] = false,
             ['coords'] = vector3(-84.03, -820.96, 35.62),
             ['sprite'] = 728,
@@ -111,18 +111,18 @@ Config.Elevators = {
 
         ['floors'] = {
             [1] = { -- basement
-                name = "floor 1",
+                name = "Térreo (garagem)",
                 coords = vector3(-84.03, -820.96, 35.62),
                 heading = 349.74,
                 tpVehicle = true,
             },
 
             [2] = { -- floor 
-                name = "floor 2",
+                name = "2º andar",
                 coords = vector3(-72.34, -813.36, 284.59),
                 heading = 160.96,
                 tpVehicle = true,
-            },
+            }
         }
     },
 
