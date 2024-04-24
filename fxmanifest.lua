@@ -1,32 +1,28 @@
---[[ ===================================================== ]]--
---[[            MH Elevators Script by MaDHouSe            ]]--
---[[ ===================================================== ]]--
-
 fx_version 'cerulean'
 game 'gta5'
 
-author 'MaDHouSe'
-description 'QB Elevators'
 version '1.0.0'
 
 shared_scripts {
     '@ox_lib/init.lua',
-    '@qbx_core/shared/locale.lua',
-    'locales/pt-br.lua', -- change en to your language
-    'config.lua',
+    'config.lua'
 }
 
 client_scripts {
-    '@PolyZone/client.lua',
-    '@PolyZone/BoxZone.lua',
-    '@PolyZone/EntityZone.lua',
-    '@PolyZone/CircleZone.lua',
-    '@PolyZone/ComboZone.lua',
-    'client/main.lua',
+    'cl_main.lua',
+    '@qbx_core/modules/playerdata.lua',
 }
 
-server_scripts {
-    'server/update.lua',
+server_scripts { 'sv_main.lua' }
+
+files {
+    'data/*.lua',
+    'modules/*.lua'
+}
+
+dependencies {
+    'ox_lib'
 }
 
 lua54 'yes'
+use_experimental_fxv2_oal 'yes'
