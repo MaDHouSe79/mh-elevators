@@ -5,6 +5,8 @@ if Lift.QB then
     QBCore = exports['qb-core']:GetCoreObject()
 end
 
+local inZone = nil
+
 local function addLiftOptions(data, liftName)
     local liftInfo
     for _, v in ipairs(data) do
@@ -44,7 +46,7 @@ RegisterNetEvent('mri_Q:client:lift', function(data)
             liftOptions[#liftOptions + 1] = {
                 title = v.label,
                 icon = 'elevator',
-                disabled = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, v.coords.x, v.coords.y, v.coords.z) <= v.size.x,
+                disabled = v.label == inZone,
                 onSelect = function()
                     -- SetEntityCoords(cache.ped, v.coords.x, v.coords.y, v.coords.z)
                     UseElevator(v.coords.x, v.coords.y, v.coords.z, v.rot, v.car)
@@ -54,7 +56,7 @@ RegisterNetEvent('mri_Q:client:lift', function(data)
             liftOptions[#liftOptions + 1] = {
                 title = v.label,
                 icon = 'elevator',
-                disabled = GetDistanceBetweenCoords(playerCoords.x, playerCoords.y, playerCoords.z, v.coords.x, v.coords.y, v.coords.z) <= v.size.x,
+                disabled = v.label == inZone,
                 onSelect = function()
                     -- SetEntityCoords(cache.ped, v.coords.x, v.coords.y, v.coords.z)
                     UseElevator(v.coords.x, v.coords.y, v.coords.z, v.rot, v.car)
@@ -75,8 +77,13 @@ function UseElevator(x, y, z, rot, car)
     if car and IsPedInAnyVehicle(cache.ped) then vehicle = GetVehiclePedIsIn(cache.ped) end
     DoScreenFadeOut(500)
     while not IsScreenFadedOut() do Wait(10) end
+    
+    local int = GetInteriorAtCoords(vec3(x, y, z))
+    PinInteriorInMemory(int)
     RequestCollisionAtCoord(x, y, z)
     while not HasCollisionLoadedAroundEntity(cache.ped) do Wait(0) end
+
+    -- while not IsInteriorReady(int) do Wait(0) end
     if car and vehicle ~= nil then
         SetEntityCoords(vehicle, x, y, z, false, false, false, true)
         SetEntityHeading(vehicle, rot)
@@ -85,12 +92,12 @@ function UseElevator(x, y, z, rot, car)
         SetEntityHeading(cache.ped, rot)
     end
     Wait(1000)
-    TriggerServerEvent("InteractSound_SV:PlayOnSource", "liftSoundBellRing", 0.4)
+    TriggerServerEvent("InteractSound_SV:PlayOnSource", "liftSoundBellRing", 0.1)
     Wait(1500)
     DoScreenFadeIn(500)
 end
 
-local function createLiftZone()
+function createLiftZone()
     local liftData = {}
     for k, v in pairs(Lift.Data) do
         table.insert(liftData, {
@@ -109,10 +116,12 @@ local function createLiftZone()
                         lib.showTextUI(string.gsub(k, '_', ' ') .. ' | Usar elevador')
                         addLiftOptions(liftData, 'lift_for_' .. k)
                     else
-                        lib.showTextUI('[E] Elevador ' ..string.gsub(k, '_', ' '), {icon = 'elevator'})
+                        inZone = j.label
+                        lib.showTextUI('[E] '..j.label..' (' ..string.gsub(k, '_', ' ')..')', {icon = 'elevator', iconAnimation = 'bounce'})
                     end
                 end,
                 onExit = function()
+                    inZone = nil
                     lib.hideTextUI()
                     utils.radialRemove('lift_for_' .. k)
                 end,
