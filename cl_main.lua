@@ -150,7 +150,7 @@ local helpText = {
     ('Criador de Elevador  \n'),
     ('[F] Para adicionar  \n'),
     ('[Enter] Para salvar  \n'),
-    ('[Backspace] Para cancelar \n')
+    ('[Backspace] Para cancelar')
 }
 
 local addedFloor = {}
