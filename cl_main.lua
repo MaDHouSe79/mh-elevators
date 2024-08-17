@@ -40,7 +40,7 @@ RegisterNetEvent('mri_Q:client:lift', function(data)
     else
         playerJob = QBX.PlayerData.job.name
     end
-    print(json.encode(data))
+    -- print(json.encode(data))
     for _, v in ipairs(data) do
         if playerJob == v.job then
             liftOptions[#liftOptions + 1] = {
@@ -106,7 +106,7 @@ end
 function createLiftZone()
     local liftData = {}
     if type(Lift.Data) ~= "table" then
-        print("Error: Lift.Data is not a table")
+        -- print("Error: Lift.Data is not a table")
         return
     end
 
@@ -235,9 +235,9 @@ local function onFinishAction()
         [label] = addedFloor
     }
 
-    print(json.encode(finalLift, {
-        indent = true
-    }))
+    -- print(json.encode(finalLift, {
+    --     indent = true
+    -- }))
 
     TriggerServerEvent('mri_Q:server:liftCreatorSave', finalLift)
     finalLift = {}
@@ -413,7 +413,7 @@ end
 
 -- parei aqui
 function changeNameElevator(location)
-    print('change function ' .. location)
+    -- print('change function ' .. location)
 
     -- Exibe o diálogo para alterar o nome do elevador
     local input = lib.inputDialog('Lift teste', {{
@@ -424,7 +424,7 @@ function changeNameElevator(location)
     }})
 
     if not input then
-        print('Input cancelado')
+        -- print('Input cancelado')
         return
     end
 
@@ -436,7 +436,7 @@ function changeNameElevator(location)
 
         -- Verifica se o novo nome já existe
         if Lift.Data[newLocation] then
-            print('O nome do elevador já existe')
+            -- print('O nome do elevador já existe')
             lib.notify({
                 title = "Erro",
                 description = "O nome do elevador já existe",
@@ -450,8 +450,8 @@ function changeNameElevator(location)
         Lift.Data[location] = nil
 
         -- Log para depuração
-        print("Nome do elevador alterado de " .. location .. " para " .. newLocation)
-        print("Dados atualizados: " .. json.encode(Lift.Data))
+        -- print("Nome do elevador alterado de " .. location .. " para " .. newLocation)
+        -- print("Dados atualizados: " .. json.encode(Lift.Data))
 
         -- Chama o evento para salvar as mudanças no servidor
         TriggerServerEvent('mri_Q:server:liftDeleteAndSave', Lift.Data)
@@ -463,7 +463,7 @@ function changeNameElevator(location)
             type = "success"
         })
     else
-        print('Nenhum resultado recebido')
+        -- print('Nenhum resultado recebido')
     end
 end
 
@@ -471,9 +471,9 @@ function teleportElevator(location)
     -- Teleporta o jogador para o elevador selecionado
     -- print("Teleportando para o elevador em: " .. location)
     local elevator = Lift.Data[location][1]
-    print(json.encode(Lift.Data[location][1], {
-        indent = true
-    }))
+    -- print(json.encode(Lift.Data[location][1], {
+    --     indent = true
+    -- }))
     SetEntityCoords(cache.ped, elevator.coords.x, elevator.coords.y, elevator.coords.z)
     SetEntityHeading(cache.ped, elevator.rot)
     lib.notify({
@@ -568,14 +568,14 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 RegisterNetEvent('mri_Q:client:updateElevators', function(elevators)
-    print(json.encode(elevators, {
-        ident = true
-    }))
-    print(json.encode(liftZone, {
-        ident = true
-    }))
+    --print(json.encode(elevators, {
+    --    ident = true
+    --}))
+    --print(json.encode(liftZone, {
+    --    ident = true
+    --}))
     if type(elevators) ~= "table" then
-        print("Error: elevators is not a table")
+        --print("Error: elevators is not a table")
         return
     end
     Lift.Data = elevators
@@ -585,7 +585,7 @@ end)
 AddStateBagChangeHandler('mri_Q_lift_zone', 'global', function(bagname, key, value)
     if value then
         if type(value) ~= "table" then
-            print("Error: value is not a table")
+            -- print("Error: value is not a table")
             return
         end
         Lift.Data = value
